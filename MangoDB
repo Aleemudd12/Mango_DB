@@ -1,0 +1,99 @@
+First, remove the old repository:
+
+sudo rm /etc/apt/sources.list.d/mongodb-org-3.0.list
+
+if Remove the old key:
+
+sudo apt-key del 9ECBEC467F0CEB10
+
+Import the GPG key for the current MongoDB version:
+
+
+curl -fsSL https://pgp.mongodb.com/server-6.0.asc | \
+   sudo gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg \
+   --dearmor
+
+Add the MongoDB 6.0 repository for Ubuntu 22.04:
+
+
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+
+Update the package list:
+
+sudo apt update
+
+Install MongoDB:
+
+sudo apt install -y mongodb-org
+
+Start and enable the MongoDB service:
+
+sudo systemctl start mongod
+sudo systemctl enable mongod
+
+Verify the installation:
+
+mongod --version
+This should install the current version of MongoDB on your Ubuntu 22.04 system. If you encounter any issues with these steps, please let me know, and I'll be happy to help further.
+
+
+
+
+
+Edit
+Great! I'm glad you've successfully installed MongoDB. Let's go through the process of adding some test data and performing basic operations. Here's a step-by-step guide:
+Connect to MongoDB:
+
+Copy
+
+mongosh
+
+Create a new database:
+javascript
+
+Copy
+use 
+testdb
+Insert some sample data:
+javascript
+
+Copy
+db.users.insertMany([
+  { name: "John Doe", age: 30, email: "john@example.com" },
+  { name: "Jane Smith", age: 25, email: "jane@example.com" },
+  { name: "Bob Johnson", age: 35, email: "bob@example.com" }
+])
+Verify the data was inserted:
+javascript
+
+Copy
+db.users.find()
+Query specific data:
+javascript
+
+Copy
+db.users.find({ age: { $gt: 30 } })
+Update a document:
+javascript
+
+Copy
+db.users.updateOne({ name: "John Doe" }, { $set: { age: 31 } })
+Delete a document:
+javascript
+
+Copy
+db.users.deleteOne({ name: "Bob Johnson" })
+Count documents:
+javascript
+
+Copy
+db.users.countDocuments()
+These are basic operations to get you started with testing.
+Would you like me to explain any of these operations in more detail? Or do you have a specific testing scenario in mind that you'd like help with?
+
+
+notes WE HAVE TO CHANGE BINDIP IN THE FILE
+
+ /usr/local/etc/mongod.conf)
+BINDIP : 0.0.0.0
+PORT: 27017
